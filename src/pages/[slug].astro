@@ -1,0 +1,29 @@
+---
+import slugify from "slugify";
+import { SITE_DATA } from "../consts";
+import Layout from "../layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  const response = await fetch(SITE_DATA);
+  const data = await response.json();
+
+  return data.map((record) => {
+    return {
+      params: {
+        slug: slugify(record.title, { lower: true }),
+      },
+      props: {
+        record,
+      },
+    };
+  });
+}
+
+const { record } = Astro.props;
+---
+
+<Layout>
+  <img src={record.cover} />
+  <h1>{record.title}</h1>
+  <p>{record.author}</p>
+</Layout>
