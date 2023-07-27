@@ -10,7 +10,7 @@ export async function getStaticPaths() {
   return data.map((record) => {
     return {
       params: {
-        slug: slugify(record.title, { lower: true }),
+        slug:record.slug,
       },
       props: {
         record,
@@ -20,10 +20,37 @@ export async function getStaticPaths() {
 }
 
 const { record } = Astro.props;
+console.log(record)
 ---
 
 <Layout>
-  <img src={record.cover} />
-  <h1>{record.title}</h1>
-  <p>{record.author}</p>
+  <div class="max-w-screen-xl mx-auto my-12 space-y-3 w-11/12">
+    <h1 class="font-bold text-xl text-center">{record.title}</h1>
+    <img class="mx-auto" src={record.image} />
+    <p>{record.content}</p>
+    <div >
+      <h3 class="font-semibold">Tags</h3>
+      <div class="flex gap-2">
+        {
+          record.tags
+            .split(",")
+            .map((t) => (
+              <div class="bg-blue-100 rounded-md p-1 text-sm capitalize">{t}</div>
+            ))
+        }
+      </div>
+    </div>
+    <div >
+      <h3 class="font-semibold">Family</h3>
+      <div class="flex gap-2">
+        {
+          record.family
+            .split(",")
+            .map((t) => (
+              <div class="bg-gray-200 rounded-md p-1 text-sm capitalize">{t}</div>
+            ))
+        }
+      </div>
+    </div>
+  </div>
 </Layout>

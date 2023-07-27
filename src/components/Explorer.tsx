@@ -21,11 +21,11 @@ const Explorer: FC<{ data: Record<string, any>[] }> = ({ data }) => {
         {records.length ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {records.map(record => (
-              <div key={record.rcd___id} className="bg-white shadow-md px-8 py-4">
-                <img src={record.cover} className="w-32" alt="" />
+              <a href={record.slug} key={record.id} className="bg-white shadow-md px-8 py-4">
+                <img src={record.image} className="w-32" alt="" />
                 <h3 className="font-bold">{record.title}</h3>
-                <p>{record.author}</p>
-              </div>
+                <p>{record.description}</p>
+              </a>
             ))}
           </div>
         ) : (
