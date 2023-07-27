@@ -1,5 +1,4 @@
 ---
-import slugify from "slugify";
 import { SITE_DATA } from "../consts";
 import Layout from "../layouts/Layout.astro";
 
@@ -20,7 +19,6 @@ export async function getStaticPaths() {
 }
 
 const { record } = Astro.props;
-console.log(record)
 ---
 
 <Layout>
