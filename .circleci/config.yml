@@ -3,13 +3,13 @@ version: 2.1
 parameters:
   site_title:
     type: string
-    default: ''
+    default: 'Pseudoviz'
   site_description:
     type: string
-    default: ''
+    default: 'All about dataviz'
   site_data:
     type: string
-    default: ''
+    default: 'https://s3.amazonaws.com/uploads.dskt.ch/datasketch/pseudoviz/pseudoviz-es.json'
 
 orbs:
   node: circleci/node@5.1.0
