@@ -43,5 +43,5 @@ workflows:
             - build
           auth:
             - aws-cli/setup:
-          from: 'dist/'
+          from: './dist/'
           to: 's3://sites.dskt.ch/datasketch/pseudoviz'
