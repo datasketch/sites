@@ -36,13 +36,12 @@ jobs:
   deploy:
     executor: aws-s3/default
     steps:
-      - run: pwd
       - attach_workspace:
           at: ~/
       - aws-cli/setup
       - aws-s3/sync:
           from: './dist/'
-          to: 's3://sites.dskt.ch/datasketch/pseudoviz'
+          to: 's3://sites.dskt.ch/datasketch/pseudoviz-test'
 
 workflows:
   build_and_deploy:
