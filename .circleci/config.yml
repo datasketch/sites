@@ -29,10 +29,11 @@ jobs:
       - checkout
       - node/install-packages
       - run: npm run build
+      - run: ls -la ./dist
       - persist_to_workspace:
           root: ./dist
           paths:
-            - dist/
+            - /
   deploy:
     executor: aws-s3/default
     steps:
