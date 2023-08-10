@@ -29,6 +29,20 @@ jobs:
       - checkout
       - node/install-packages
       - run: npm run build
+      - persist_to_workspace:
+          root: ./dist
+          paths:
+            - dist/
+  deploy:
+    executor: aws-s3/default
+    steps:
+      - attach_workspace:
+          at: /workspace
+      - aws-cli/setup
+      - aws-s3/sync:
+          from: './dist/'
+          to: 's3://sites.dskt.ch/datasketch/pseudoviz'
+
 
 
 workflows:
@@ -38,10 +52,7 @@ workflows:
           filters:
             branches:
               only: main
-      - aws-s3/sync:
+      - deploy:
           requires:
             - build
-          auth:
-            - aws-cli/setup:
-          from: './dist/'
-          to: 's3://sites.dskt.ch/datasketch/pseudoviz'
+
