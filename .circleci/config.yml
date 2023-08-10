@@ -29,18 +29,16 @@ jobs:
       - checkout
       - node/install-packages
       - run: npm run build
-      - run: mkdir ~/out
       - persist_to_workspace:
-          root: ~/out
+          root: ~/
           paths:
-            - ./dist
-      - run: ls -la ~
+            - project/dist
   deploy:
     executor: aws-s3/default
     steps:
       - run: pwd
       - attach_workspace:
-          at: ~/build
+          at: ~/
       - aws-cli/setup
       - aws-s3/sync:
           from: './dist/'
