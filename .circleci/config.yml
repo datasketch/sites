@@ -37,6 +37,8 @@ jobs:
   deploy:
     executor: aws-s3/default
     steps:
+      - run: pwd
+      - run: ls -la
       - attach_workspace:
           at: /workspace
       - aws-cli/setup
