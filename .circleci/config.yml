@@ -1,0 +1,47 @@
+version: 2.1
+
+parameters:
+  site_title:
+    type: string
+    default: ''
+  site_description:
+    type: string
+    default: ''
+  site_data:
+    type: string
+    default: ''
+
+orbs:
+  node: circleci/node@5.1.0
+  aws-cli: circleci/aws-cli@4.0.0
+  aws-s3: circleci/aws-s3@4.0.0
+
+jobs:
+  build:
+    executor:
+      name: node/default
+      tag: '18.17'
+    environment:
+      SITE_TITLE: << pipeline.parameters.site_title >>
+      SITE_DESCRIPTION: << pipeline.parameters.site_description >>
+      SITE_DATA: << pipeline.parameters.site_data >>
+    steps:
+      - checkout
+      - node/install-packages
+      - run: npm run build
+
+
+workflows:
+  build_and_deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: main
+      - aws-s3/sync:
+          requires:
+            - build
+          auth:
+            - aws-cli/setup:
+          from: 'dist/'
+          to: 's3://sites.dskt.ch/datasketch/pseudoviz'
