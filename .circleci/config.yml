@@ -10,6 +10,9 @@ parameters:
   site_data:
     type: string
     default: 'https://s3.amazonaws.com/uploads.dskt.ch/datasketch/pseudoviz/pseudoviz-es.json'
+  run_workflow:
+    type: boolean
+    default: false
 
 orbs:
   node: circleci/node@5.1.0
@@ -45,6 +48,7 @@ jobs:
 
 workflows:
   build_and_deploy:
+    when: << pipeline.parameters.run_workflow >>
     jobs:
       - build:
           filters:
