@@ -7,9 +7,15 @@ parameters:
   site_description:
     type: string
     default: 'All about dataviz'
-  site_data:
+  org:
     type: string
-    default: 'https://s3.amazonaws.com/uploads.dskt.ch/datasketch/pseudoviz/pseudoviz-es.json'
+    default: 'datasketch'
+  db:
+    type: string
+    default: 'pseudoviz'
+  table:
+    type: string
+    default: 'pseudoviz-en'
   run_workflow:
     type: boolean
     default: false
@@ -27,11 +33,12 @@ jobs:
     environment:
       SITE_TITLE: << pipeline.parameters.site_title >>
       SITE_DESCRIPTION: << pipeline.parameters.site_description >>
-      SITE_DATA: << pipeline.parameters.site_data >>
+      SITE_DATA: https://s3.amazonaws.com/uploads.dskt.ch/<< pipeline.parameters.org >>/<< pipeline.parameters.db >>/<< pipeline.parameters.table >>.json
     steps:
       - checkout
+      - run: echo $SITE_DATA
       - node/install-packages
-      - run: npm run build -- --site https://sites.dskt.ch --base /datasketch/pseudoviz
+      - run: npm run build -- --site https://sites.dskt.ch --base /<< pipeline.parameters.org >>/<< pipeline.parameters.db >>
       - persist_to_workspace:
           root: ~/
           paths:
@@ -44,7 +51,7 @@ jobs:
       - aws-cli/setup
       - aws-s3/sync:
           from: './dist/'
-          to: 's3://sites.dskt.ch/datasketch/pseudoviz-test'
+          to: 's3://sites.dskt.ch/<< pipeline.parameters.org >>/<< pipeline.parameters.db >>'
 
 workflows:
   build_and_deploy:
