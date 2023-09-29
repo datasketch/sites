@@ -64,7 +64,7 @@ jobs:
             mkdir -p src/<< pipeline.parameters.org >>/<< pipeline.parameters.db >>
             cp -r ../dist/* ./src/<< pipeline.parameters.org >>/<< pipeline.parameters.db >>
             git add .
-            git commit -m "Update builds"
+            git commit -m "Update builds" --allow-empty
             git push origin main
 
 workflows:
