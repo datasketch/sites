@@ -51,6 +51,9 @@ jobs:
             - "eb:7d:2a:71:c2:6f:0c:87:4c:c8:32:8a:c1:2b:bc:55"
       - attach_workspace:
           at: ~/
+      - run:
+          name: Add github.com to known hosts
+          command: ssh-keyscan github.com >> ~/.ssh/known_hosts
       - run: |
           git clone git@github.com:datasketch/users-generated-sites.git --depth 1
           cd users-generated-sites
