@@ -54,14 +54,21 @@ jobs:
       - run:
           name: Add github.com to known hosts
           command: ssh-keyscan github.com >> ~/.ssh/known_hosts
-      - run: |
-          git clone git@github.com:datasketch/users-generated-sites.git --depth 1
-          cd users-generated-sites
-          mkdir -p << pipeline.parameters.org >>/<< pipeline.parameters.db >>
-          cp -r ../dist/* ./<< pipeline.parameters.org >>/<< pipeline.parameters.db >>
-          git add .
-          git commit -m "Update builds"
-          git push origin main
+      - run:
+          name: Configure git user
+          command: |
+            git config user.email "gh-machine@datasketch.co"
+            git config user.name "machine-user"
+      - run:
+          name: Update repo
+          command: |
+            git clone git@github.com:datasketch/users-generated-sites.git --depth 1
+            cd users-generated-sites
+            mkdir -p << pipeline.parameters.org >>/<< pipeline.parameters.db >>
+            cp -r ../dist/* ./<< pipeline.parameters.org >>/<< pipeline.parameters.db >>
+            git add .
+            git commit -m "Update builds"
+            git push origin main
 
 workflows:
   build_and_deploy:
