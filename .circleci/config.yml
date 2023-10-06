@@ -1,21 +1,30 @@
 version: 2.1
 
 parameters:
-  site_title:
+  title:
     type: string
-    default: 'Pseudoviz'
-  site_description:
+    default: ''
+  description:
     type: string
-    default: 'All about dataviz'
+    default: ''
   org:
     type: string
-    default: 'datasketch'
+    default: ''
   db:
     type: string
-    default: 'pseudoviz'
+    default: ''
   table:
     type: string
-    default: 'pseudoviz-en'
+    default: ''
+  cardTitle:
+    type: string
+    default: ''
+  cardDescription:
+    type: string
+    default: ''
+  cardImage:
+    type: string
+    default: ''
   run_workflow:
     type: boolean
     default: false
@@ -29,9 +38,12 @@ jobs:
       name: node/default
       tag: '18.17'
     environment:
-      SITE_TITLE: << pipeline.parameters.site_title >>
-      SITE_DESCRIPTION: << pipeline.parameters.site_description >>
+      SITE_TITLE: << pipeline.parameters.title >>
+      SITE_DESCRIPTION: << pipeline.parameters.description >>
       SITE_DATA: https://s3.amazonaws.com/uploads.dskt.ch/<< pipeline.parameters.org >>/<< pipeline.parameters.db >>/<< pipeline.parameters.table >>.json
+      CARD_TITLE: <<pipeline.parameters.cardTitle>>
+      CARD_DESCRIPTION: <<pipeline.parameters.cardDescription>>
+      CARD_IMAGE: <<pipeline.parameters.cardImage>>
     steps:
       - checkout
       - run: echo $SITE_DATA

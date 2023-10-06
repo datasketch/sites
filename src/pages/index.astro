@@ -1,12 +1,19 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import Layout from '../layouts/Layout.astro';
-import { SITE_DATA, SITE_DESCRIPTION } from '../consts';
 import Explorer from '../components/Explorer';
+import Layout from '../layouts/Layout.astro';
 
-const response = await fetch(SITE_DATA)
+import { CARD_DESCRIPTION, CARD_IMAGE, CARD_TITLE, SITE_DATA, SITE_DESCRIPTION } from '../consts';
+
+const response = await fetch(SITE_DATA || '')
 const data = await response.json()
+
+const fields = {
+  title: CARD_TITLE || '',
+  description: CARD_DESCRIPTION || '',
+  image: CARD_IMAGE
+}
 ---
 
 <Layout>
@@ -14,7 +21,7 @@ const data = await response.json()
 	<main class="max-w-screen-2xl mx-auto px-6 py-6">
     <p class="text-center max-w-screen-md mx-auto">{SITE_DESCRIPTION}</p>
     <div class="mt-6">
-      <Explorer data={data} client:load />
+      <Explorer fields={fields} data={data} client:load />
     </div>
 	</main>
 	<Footer />

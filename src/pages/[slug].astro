@@ -1,15 +1,16 @@
 ---
-import { SITE_DATA } from "../consts";
+import Header from "../components/Header.astro";
+import { CARD_DESCRIPTION, CARD_IMAGE, CARD_TITLE, SITE_DATA } from "../consts";
 import Layout from "../layouts/Layout.astro";
 
 export async function getStaticPaths() {
-  const response = await fetch(SITE_DATA);
+  const response = await fetch(SITE_DATA || '');
   const data = await response.json();
 
   return data.map((record) => {
     return {
       params: {
-        slug:record.slug,
+        slug: record.rcd___id,
       },
       props: {
         record,
@@ -19,14 +20,23 @@ export async function getStaticPaths() {
 }
 
 const { record } = Astro.props;
+
+const fields = {
+  title: CARD_TITLE || '',
+  description: CARD_DESCRIPTION || '',
+  image: CARD_IMAGE
+}
 ---
 
 <Layout>
-  <div class="max-w-screen-xl mx-auto my-12 space-y-3 w-11/12">
-    <h1 class="font-bold text-xl text-center">{record.title}</h1>
-    <img class="mx-auto" src={record.image} />
-    <p>{record.content}</p>
-    {record.tags && (
+  <Header />
+  <div class="max-w-screen-md mx-auto my-12 space-y-3 md:w-10/12">
+    <h1 class="font-bold text-xl text-center">{record[fields.title]}</h1>
+    {fields.image && (
+      <img class="mx-auto max-w-xs" src={record[fields.image]} title={record[fields.title]} />
+    )}
+    <p class="text-lg">{record[fields.description]}</p>
+    <!-- {record.tags && (
       <div>
         <h3 class="font-semibold">Tags</h3>
         <div class="flex gap-2">
@@ -39,7 +49,7 @@ const { record } = Astro.props;
           }
         </div>
       </div>
-    )}
+    )} -->
     {record.family&& (
       <div>
         <h3 class="font-semibold">Family</h3>
