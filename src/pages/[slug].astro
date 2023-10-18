@@ -1,7 +1,8 @@
 ---
 import Header from "../components/Header.astro";
-import { CARD_DESCRIPTION, CARD_IMAGE, CARD_TITLE, SITE_DATA } from "../consts";
+import { CARD_DESCRIPTION, CARD_IMAGE, CARD_TITLE, SITE_DATA, CARD_SLUG } from "../consts";
 import Layout from "../layouts/Layout.astro";
+import slugify from "slugify";
 
 export async function getStaticPaths() {
   const response = await fetch(SITE_DATA || '');
@@ -10,7 +11,7 @@ export async function getStaticPaths() {
   return data.map((record) => {
     return {
       params: {
-        slug: record.rcd___id,
+        slug: record?.cardSlug ? slugify(record.cardSlug, { lower: true, replacement: '-', trim: true }) : record.rcd___id,
       },
       props: {
         record,
@@ -24,7 +25,8 @@ const { record } = Astro.props;
 const fields = {
   title: CARD_TITLE || '',
   description: CARD_DESCRIPTION || '',
-  image: CARD_IMAGE
+  image: CARD_IMAGE,
+  cardSlug: CARD_SLUG
 }
 ---
 

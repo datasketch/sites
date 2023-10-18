@@ -1,11 +1,13 @@
 import { FC, useEffect, useState } from "react";
 import { normalize } from "../utils";
+import slugify from "slugify";
 
 type ExplorerProps = {
   data: Record<string, any>[], fields: {
     title: string
     description: string
     image?: string
+    cardSlug: string
   }
 }
 
@@ -29,7 +31,7 @@ const Explorer: FC<ExplorerProps> = ({ data, fields }) => {
         {records.length ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {records.map(record => (
-              <a href={record.rcd___id} key={record.rcd___id} className="bg-white shadow-md px-8 py-4">
+              <a href={record?.cardSlug ? slugify(record[fields.cardSlug], { lower: true, replacement: '-', trim: true }) : record.rcd___id} key={record?.cardSlug ? slugify(record[fields.cardSlug], { lower: true, replacement: '-', trim: true }) : record.rcd___id} className="bg-white shadow-md px-8 py-4">
                 {fields.image && (
                   <img src={record[fields.image]} className="w-32" alt="" />
                 )}
