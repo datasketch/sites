@@ -4,7 +4,7 @@ import Footer from '../components/Footer.astro';
 import Explorer from '../components/Explorer';
 import Layout from '../layouts/Layout.astro';
 
-import { CARD_DESCRIPTION, CARD_IMAGE, CARD_TITLE, SITE_DATA, SITE_DESCRIPTION } from '../consts';
+import { CARD_DESCRIPTION, CARD_IMAGE, CARD_TITLE, SITE_DATA, SITE_DESCRIPTION, CARD_SLUG } from '../consts';
 
 const response = await fetch(SITE_DATA || '')
 const data = await response.json()
@@ -12,7 +12,8 @@ const data = await response.json()
 const fields = {
   title: CARD_TITLE || '',
   description: CARD_DESCRIPTION || '',
-  image: CARD_IMAGE
+  image: CARD_IMAGE,
+  slug: CARD_SLUG || ''
 }
 ---
 

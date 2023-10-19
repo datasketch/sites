@@ -25,6 +25,9 @@ parameters:
   cardImage:
     type: string
     default: ''
+  cardSlug:
+    type: string
+    default: ''
   run_workflow:
     type: boolean
     default: false
@@ -44,6 +47,7 @@ jobs:
       CARD_TITLE: <<pipeline.parameters.cardTitle>>
       CARD_DESCRIPTION: <<pipeline.parameters.cardDescription>>
       CARD_IMAGE: <<pipeline.parameters.cardImage>>
+      CARD_SLUG: <<pipeline.parameters.cardSlug>>
     steps:
       - checkout
       - run: echo $SITE_DATA
