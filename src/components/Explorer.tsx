@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { normalize } from "../utils";
+import { generateSlug, normalize } from "../utils";
 import slugify from "slugify";
 
 type ExplorerProps = {
@@ -7,7 +7,7 @@ type ExplorerProps = {
     title: string
     description: string
     image?: string
-    cardSlug: string
+    slug: string
   }
 }
 
@@ -30,15 +30,18 @@ const Explorer: FC<ExplorerProps> = ({ data, fields }) => {
       <div className="mt-12">
         {records.length ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {records.map(record => (
-              <a href={record?.cardSlug ? slugify(record[fields.cardSlug], { lower: true, replacement: '-', trim: true }) : record.rcd___id} key={record?.cardSlug ? slugify(record[fields.cardSlug], { lower: true, replacement: '-', trim: true }) : record.rcd___id} className="bg-white shadow-md px-8 py-4">
-                {fields.image && (
-                  <img src={record[fields.image]} className="w-32" alt="" />
-                )}
-                <h3 className="font-bold">{record[fields.title]}</h3>
-                <p>{record[fields.description]}</p>
-              </a>
-            ))}
+            {records.map(record => {
+              const slug = record?.slug ? generateSlug(record[fields.slug]) : record.rcd___id
+              return (
+                <a href={slug} key={slug} className="bg-white shadow-md px-8 py-4">
+                  {fields.image && (
+                    <img src={record[fields.image]} className="w-32" alt="" />
+                  )}
+                  <h3 className="font-bold">{record[fields.title]}</h3>
+                  <p>{record[fields.description]}</p>
+                </a>
+              )
+            })}
           </div>
         ) : (
           <p className="text-center">There are no results for query <i>&apos;{query}&apos;</i>. <button type="button" className="underline" onClick={() => setQuery('')}>Clear search</button>.</p>
