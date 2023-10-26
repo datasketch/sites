@@ -14,6 +14,10 @@ type ExplorerProps = {
 const Explorer: FC<ExplorerProps> = ({ data, fields }) => {
   const [query, setQuery] = useState('')
   const [records, setRecords] = useState(data)
+  console.log(records);
+  console.log(fields);
+
+
 
   useEffect(() => {
     const result = data.filter(record => {
@@ -31,7 +35,7 @@ const Explorer: FC<ExplorerProps> = ({ data, fields }) => {
         {records.length ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {records.map(record => {
-              const slug = record?.slug ? generateSlug(record[fields.slug]) : record.rcd___id
+              const slug = fields?.slug ? generateSlug(record[fields.slug]) : record.rcd___id
               return (
                 <a href={slug} key={slug} className="bg-white shadow-md px-8 py-4">
                   {fields.image && (
