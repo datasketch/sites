@@ -10,16 +10,16 @@ import {
 import Layout from "../layouts/Layout.astro";
 import { generateSlug } from "../utils";
 
+export const fields = {
+  title: CARD_TITLE || "",
+  description: CARD_DESCRIPTION || "",
+  image: CARD_IMAGE,
+  slug: CARD_SLUG,
+};
+
 export async function getStaticPaths() {
   const response = await fetch(SITE_DATA || "");
   const data = await response.json();
-
-  const fields = {
-    title: CARD_TITLE || "",
-    description: CARD_DESCRIPTION || "",
-    image: CARD_IMAGE,
-    slug: CARD_SLUG,
-  };
 
   return data.map((record) => {
     const slug = fields?.slug
@@ -35,13 +35,6 @@ export async function getStaticPaths() {
     };
   });
 }
-
-const fields = {
-  title: CARD_TITLE || "",
-  description: CARD_DESCRIPTION || "",
-  image: CARD_IMAGE,
-  slug: CARD_SLUG,
-};
 
 const { record } = Astro.props;
 ---

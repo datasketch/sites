@@ -1,6 +1,5 @@
 import { FC, useEffect, useState } from "react";
 import { generateSlug, normalize } from "../utils";
-import slugify from "slugify";
 
 type ExplorerProps = {
   data: Record<string, any>[], fields: {
@@ -14,10 +13,6 @@ type ExplorerProps = {
 const Explorer: FC<ExplorerProps> = ({ data, fields }) => {
   const [query, setQuery] = useState('')
   const [records, setRecords] = useState(data)
-  console.log(records);
-  console.log(fields);
-
-
 
   useEffect(() => {
     const result = data.filter(record => {
