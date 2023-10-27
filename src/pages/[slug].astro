@@ -10,13 +10,20 @@ import {
 import Layout from "../layouts/Layout.astro";
 import { generateSlug } from "../utils";
 
+export const fields = {
+  title: CARD_TITLE || "",
+  description: CARD_DESCRIPTION || "",
+  image: CARD_IMAGE,
+  slug: CARD_SLUG,
+};
+
 export async function getStaticPaths() {
   const response = await fetch(SITE_DATA || "");
   const data = await response.json();
 
   return data.map((record) => {
-    const slug = record?.cardSlug
-      ? generateSlug(record.cardSlug)
+    const slug = fields?.slug
+      ? generateSlug(record[fields.slug])
       : record.rcd___id;
     return {
       params: {
@@ -30,13 +37,6 @@ export async function getStaticPaths() {
 }
 
 const { record } = Astro.props;
-
-const fields = {
-  title: CARD_TITLE || "",
-  description: CARD_DESCRIPTION || "",
-  image: CARD_IMAGE,
-  slug: CARD_SLUG,
-};
 ---
 
 <Layout>
