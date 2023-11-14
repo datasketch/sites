@@ -32,7 +32,7 @@ const Explorer: FC<ExplorerProps> = ({ data, fields }) => {
             {records.map(record => {
               const slug = fields?.slug ? generateSlug(record[fields.slug]) : record.rcd___id
               return (
-                <a href={slug} key={slug} className="bg-white shadow-md px-8 py-4">
+                <a href={`/${slug}`} key={slug} className="bg-white shadow-md px-8 py-4">
                   {fields.image && (
                     <img src={record[fields.image]} className="w-32" alt="" />
                   )}
