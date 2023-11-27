@@ -16,7 +16,7 @@ const Explorer: FC<ExplorerProps> = ({ data, fields }) => {
 
   useEffect(() => {
     const result = data.filter(record => {
-      return normalize(record[fields.title]).includes(normalize(query))
+      return normalize(record[fields.title] + '').includes(normalize(query))
     })
     setRecords(result)
   }, [query])
